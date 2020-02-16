@@ -1,13 +1,13 @@
 ﻿@model PubProject.Models.ViewModels.Shop.ProductVM
 
 @{
-    ViewBag.Title = "Edit Product";
+    ViewBag.Title = "Edit Product Details";
 }
 
-<h2>Edit Product</h2>
+<h2 style="color:darkgoldenrod;text-shadow:1px 1px 1px black">Edit Product</h2>
 
 <div>
-    @Html.ActionLink("Back to Products", "Products")
+    @Html.ActionLink("Back to Products' Info", "Products")
 </div>
 
 <style>
@@ -27,7 +27,7 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
+    <div class="form-horizontal" style="color:darkgoldenrod;text-shadow:1px 1px 1px black;font-style:italic">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -68,7 +68,7 @@
             <label class="control-label col-md-2" for="HasSidebar">Image Name</label>
             @Html.EditorFor(model => model.ImageName, new { htmlAttributes = new { @class = "form-control" } })
             <div class="col-md-10">
-                <img src="/Images/Uploads/Products/@Model.Id/Thumbs/@Model.ImageName" />
+                <img src="/Images/Uploads/Products/@Model.Id/Thumbs/@Model.ImageName" width="320" height="320" />
                 <br /><br />
                 <img id="imgpreview" src="#" />
                 <br /><br />
@@ -105,8 +105,8 @@
 @foreach (var image in Model.GalleryImages)
 {
     <div style="display: inline-block;margin-right: 15px;">
-        <img src="/Images/Uploads/Products/@Model.Id/Gallery/Thumbs/@image" />
-        @Html.ActionLink("delete", "DeleteImage", "Shop", new { @class = "deleteimage", data_name = image })
+        <img src="/Images/Uploads/Products/@Model.Id/Gallery/Thumbs/@image" width="320" height="320" />
+        @Html.ActionLink("Delete Image", "DeleteImage", "Shop", new { @class = "deleteimage", data_name = image })
     </div>
 }
 <link href="~/Scripts/dropzone/basic.css" rel="stylesheet" />

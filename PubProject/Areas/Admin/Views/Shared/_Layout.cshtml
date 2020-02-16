@@ -7,8 +7,12 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-topcancel">
+<body background="~/Content/bar1.jpg";
+      style="background-repeat:no-repeat;
+      background-size:100% 100%;    
+      background-attachment: fixed;"
+      >
+    <div class="navbar navbar-inverse navbar-fixed-topcancel" style="background-color:darkgoldenrod;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -16,18 +20,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/admin/dashboard" class="navbar-brand">Dashboard</a>
+                <a href="/admin/dashboard" class="navbar-brand" style="color:black">Admin Dashboard</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/admin/pages">Pages</a></li>
-                    <li><a href="/admin/pages/EditSidebar">Sidebar</a></li>
-                    <li><a href="/admin/shop/Categories">Categories</a></li>
-                    <li><a href="/admin/shop/Products">Products</a></li>
-                    <li><a href="/admin/shop/Orders">Orders</a></li>
+                    <li><a href="/admin/pages" style="color:black;font-style:italic">Pages</a></li>
+                    <li><a href="/admin/pages/EditSidebar"style="color:black;font-style:italic">Sidebar</a></li>
+                    <li><a href="/admin/shop/Categories" style="color:black;font-style:italic">Categories</a></li>
+                    <li><a href="/admin/shop/Products" style="color:black;font-style:italic">Products</a></li>
+                    <li><a href="/admin/shop/Orders" style="color:black;font-style:italic">Orders</a></li>
                 </ul>
                 <ul class="navbar-right">
-                    <li><a href="/" class="navbar-brand" target="_blank">PubProject</a></li>
+                    <li><a href="/" class="navbar-brand" target="_blank" style="color:black;font-style:italic">BYEM Pub</a></li>
                 </ul>
             </div>
         </div>

@@ -5,15 +5,15 @@
     int count = 1;
 }
 
-<h2>Cart Details</h2>
+<h2 style="color:darkgoldenrod; font-weight:bold">Cart Details</h2>
 
 @if (ViewBag.Message != null)
 {
-    <h3>@ViewBag.Message</h3>
+    <h3 style="color:darkgoldenrod">@ViewBag.Message</h3>
 }
 else
 {
-    <table class="table">
+    <table class="table" style="color:darkgoldenrod;text-shadow: 1px 1px 1px black">
         <tr>
             <th>
                 Name
@@ -50,11 +50,11 @@ else
                 $@Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                <img src="/Images/Uploads/Products/@item.ProductId/Thumbs/@item.Image" />
+                <img src="/Images/Uploads/Products/@item.ProductId/Thumbs/@item.Image" width="150" height="220" />
             </td>
             <td>
-                <a href="#" class="incrproduct" data-id="@item.ProductId">+</a>
-                <a href="#" class="decrproduct" data-id="@item.ProductId">-</a>
+                <a href="#" class="increaseproduct" data-id="@item.ProductId">Add</a>
+                <a href="#" class="decreaseproduct" data-id="@item.ProductId">deduct</a>
                 <a href="#" class="removeproduct" data-id="@item.ProductId">Remove</a>
             </td>
             <td class="total@(item.ProductId)">
@@ -70,27 +70,13 @@ else
             <td></td>
             <td></td>
             <td></td>
-            <td class="grandtotal"><b>Grand total</b> $<span>@ViewBag.GrandTotal</span></td>
+            <td class="grandtotal"><b>Total Price</b> $<span>@ViewBag.GrandTotal</span></td>
         </tr>
 
     </table>
 
-    <div class="paypaldiv">
-        <form class="paypalform" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-            <input type="hidden" name="cmd" value="_cart">
-            <input type="hidden" name="upload" value="1">
-            <input type="hidden" name="business" value="jultranet-facilitator@gmail.com">
-
-            @foreach (var item in Model)
-            {
-                <input type="hidden" name="item_name_@count" value="@item.ProductName">
-                <input type="hidden" name="amount_@count" value="@item.Price">
-                <input type="hidden" name="quantity_@count" value="@item.Quantity">
-                count++;
-            }
-
-            <input type="hidden" name="currency_code" value="USD">
-            <input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+    <div class="paydiv">
+        <form class="payform" action="~/Views/Account/Orders.cshtml" method="post">
         </form>
     </div>
     <br />
@@ -104,10 +90,10 @@ else
 $(function () {
 
     /*
-    * Increment product
+    * Increasing Item's quantity
     */
 
-    $("a.incrproduct").click(function (e) {
+    $("a.increaseproduct").click(function (e) {
         e.preventDefault();
 
         var productId = $(this).data("id");
@@ -127,10 +113,10 @@ $(function () {
 
             $("td.grandtotal span").text(grandtotal);
         }).done(function (data) {
-            var url2 = "/cart/PaypalPartial";
+            var url2 = "/cart/PayPartial";
 
             $.get(url2, { }, function (data) {
-                $('div.paypaldiv').html(data);
+                $('div.paydiv').html(data);
             });
         });
     });
@@ -138,10 +124,10 @@ $(function () {
     //////////////////////////////////////////////////////////////
 
     /*
-    * Decrement product
+    * Deceasing Item's quantity
     */
 
-    $("a.decrproduct").click(function (e) {
+    $("a.decreaseproduct").click(function (e) {
         e.preventDefault();
 
         var $this = $(this);
@@ -169,10 +155,10 @@ $(function () {
             }
 
         }).done(function (data) {
-            var url2 = "/cart/PaypalPartial";
+            var url2 = "/cart/PayPartial";
 
             $.get(url2, {}, function (data) {
-                $('div.paypaldiv').html(data);
+                $('div.paydiv').html(data);
             });
         });
     });
@@ -180,7 +166,7 @@ $(function () {
     //////////////////////////////////////////////////////////////
 
     /*
-    * Remove product
+    * Removing Item
     */
 
     $("a.removeproduct").click(function (e) {
@@ -198,7 +184,7 @@ $(function () {
     //////////////////////////////////////////////////////////////
 
     /*
-    * Place order
+    * Place an order
     */
 
     $("a.placeorder").click(function (e) {
@@ -211,7 +197,7 @@ $(function () {
         $(".ajaxbg").show();
 
         $.post(url, { }, function (data) {
-            $(".ajaxbg span").text("Thank you. You will now be redirected to paypal.");
+            $(".ajaxbg span").text("Thank you. Please check your Orders in View Orders.");
             setTimeout(function () {
                 $('form input[name="submit"]').click();
             }, 2000);

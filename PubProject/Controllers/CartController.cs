@@ -21,7 +21,7 @@ namespace PubProject.Controllers
             // Check if cart is empty
             if (cart.Count == 0 || Session["cart"] == null)
             {
-                ViewBag.Message = "Your cart is empty.";
+                ViewBag.Message = "There's nothing in your shopping cart.";
                 return View();
             }
 
@@ -205,12 +205,12 @@ namespace PubProject.Controllers
 
         }
 
-        public ActionResult PaypalPartial()
-        {
-            List<CartVM> cart = Session["cart"] as List<CartVM>;
+       // public ActionResult PaypalPartial()
+    //    {
+       //     List<CartVM> cart = Session["cart"] as List<CartVM>;
 
-            return PartialView(cart);
-        }
+       //     return PartialView(cart);
+   //     }
 
         // POST: /Cart/PlaceOrder
         [HttpPost]
@@ -267,10 +267,11 @@ namespace PubProject.Controllers
                 Credentials = new NetworkCredential("21f57cbb94cf88", "e9d7055c69f02d"),
                 EnableSsl = true
             };
-            client.Send("admin@example.com", "admin@example.com", "New Order", "You have a new order. Order number " + orderId);
+           // client.Send("admin@example.com", "admin@example.com", "New Order", "You have a new order. Order number " + orderId);
 
             // Reset session
             Session["cart"] = null;
         }
+
     }
 }

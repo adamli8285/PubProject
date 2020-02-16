@@ -4,7 +4,7 @@
     ViewBag.Title = "Pages";
 }
 
-<h2>Pages</h2>
+<h2  style="color:darkgoldenrod;text-shadow:1px 1px 1px black">Pages</h2>
 
 <p>
     @Html.ActionLink("Add New Page", "AddPage")
@@ -12,11 +12,11 @@
 
 @if(! Model.Any())
 {
-    <h1 class="text-center">There are no pages.</h1>
+    <h1 class="text-center" style="color:darkgoldenrod;text-shadow:1px 1px 1px black">There are no pages.</h1>
 }
 else
 {
-    <table class="table sorting" id="pages">
+    <table class="table sorting" id="pages"  style="color:darkgoldenrod;text-shadow:1px 1px 1px black;font-weight:bold">
         <tr class="home">
             <th>
                 Title

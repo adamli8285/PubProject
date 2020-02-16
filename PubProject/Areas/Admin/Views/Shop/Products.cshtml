@@ -7,7 +7,7 @@
 @using PagedList.Mvc; 
 @using PagedList;
 
-<h2>Products</h2>
+<h2 style="color:darkgoldenrod;text-shadow:1px 1px 1px black">Products</h2>
 
 <select id="SelectCategory" name="SelectCategory">
     <option value="0">All</option>
@@ -29,7 +29,7 @@
     @Html.ActionLink("Add New Product", "AddProduct")
 </p>
 
-<table class="table">
+<table class="table" style="color:darkgoldenrod;text-shadow:1px 1px 1px black">
     <tr>
         <th>
             Name
@@ -60,7 +60,7 @@
             </td>
             <td>
                 <a href="/admin/shop/EditProduct/@product.Id">
-                    <img src="/Images/Uploads/Products/@product.Id/Thumbs/@product.ImageName" />
+                    <img src="/Images/Uploads/Products/@product.Id/Thumbs/@product.ImageName" width="320" height="320" />
                 </a>
             </td>
             <td>

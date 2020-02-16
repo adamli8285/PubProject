@@ -4,12 +4,12 @@
     ViewBag.Title = "Categories";
 }
 
-<h2>Categories</h2>
+<h2 style="color:darkgoldenrod;text-shadow:1px 1px 1px black">Categories</h2>
 
 <div class="new-cat">
     <input type="text" id="newcatname" />
     <p>
-        <a href="#" id="newcata">Add a new category</a>
+        <a href="#" id="newcata" style="color:cornflowerblue;text-shadow:1px 1px 1px black">Enter name to add a new category</a>
         <span class="ajax-text">
             <img src="~/Content/img/ajax-loader.gif" />
         </span>
@@ -18,11 +18,11 @@
 
 @if (! Model.Any())
 {
-    <h1 class="text-center">There are no categories.</h1>
+    <h1 class="text-center" style="color:darkgoldenrod;text-shadow:1px 1px 1px black">There are no categories.</h1>
 }
 else
 {
-    <table class="table sorting categories" id="pages">
+    <table class="table sorting categories" id="pages" style="color:darkgoldenrod;text-shadow:1px 1px 1px black;font-size:20px">
         <tr class="home">
             <th>
                 @Html.DisplayNameFor(model => model.Name)

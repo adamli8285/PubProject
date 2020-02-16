@@ -4,9 +4,9 @@
     ViewBag.Title = ViewBag.CategoryName;
 }
 
-<h2>@ViewBag.CategoryName</h2>
+<h2 style="color:darkgoldenrod;text-shadow:1px 1px 1px black">@ViewBag.CategoryName</h2>
 
-<table class="table">
+<table class="table" style="color:darkgoldenrod;text-shadow:1px 1px 1px black">
     <tr>
         <th>
             Name
@@ -36,7 +36,7 @@
         </td>
         <td>
             <a href="/shop/product-details/@item.Slug">
-                <img src="/Images/Uploads/Products/@item.Id/Thumbs/@item.ImageName" />
+                <img src="/Images/Uploads/Products/@item.Id/@item.ImageName" width="250" height="320" />
             </a>
         </td>
         <td>
