@@ -616,6 +616,7 @@
     <Content Include="Views\Account\UserProfile.cshtml" />
     <Content Include="Views\Cart\PayPartial.cshtml" />
     <Content Include="Views\Account\Orders.cshtml" />
+    <Content Include="Views\Account\CancelOrder.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

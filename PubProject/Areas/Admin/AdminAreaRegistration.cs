@@ -11,7 +11,7 @@ namespace PubProject.Areas.Admin
                 return "Admin";
             }
         }
-
+        // get Admin Home Page
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(

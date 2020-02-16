@@ -18,7 +18,7 @@ namespace PubProject.Controllers
             // Init the cart list
             var cart = Session["cart"] as List<CartVM> ?? new List<CartVM>();
 
-            // Check if cart is empty
+            // Check if cart is empty and return view
             if (cart.Count == 0 || Session["cart"] == null)
             {
                 ViewBag.Message = "There's nothing in your shopping cart.";
@@ -42,13 +42,13 @@ namespace PubProject.Controllers
 
         public ActionResult CartPartial()
         {
-            // Init CartVM
+            // define CartVM
             CartVM model = new CartVM();
 
-            // Init quantity
+            // define quantity
             int qty = 0;
 
-            // Init price
+            // define price
             decimal price = 0m;
 
             // Check for cart session
@@ -80,15 +80,15 @@ namespace PubProject.Controllers
 
         public ActionResult AddToCartPartial(int id)
         {
-            // Init CartVM list
+            // define CartVM list
             List<CartVM> cart = Session["cart"] as List<CartVM> ?? new List<CartVM>();
 
-            // Init CartVM
+            // define CartVM
             CartVM model = new CartVM();
 
             using (Db db = new Db())
             {
-                // Get the product
+                // Get the product by id 
                 ProductDTO product = db.Products.Find(id);
 
                 // Check if the product is already in cart
@@ -108,7 +108,7 @@ namespace PubProject.Controllers
                 }
                 else
                 {
-                    // If it is, increment
+                    // If it is, increase the product quantity 
                     productInCart.Quantity++;
                 }
             }
@@ -137,7 +137,7 @@ namespace PubProject.Controllers
         // GET: /Cart/IncrementProduct
         public JsonResult IncrementProduct(int productId)
         {
-            // Init cart list
+            // define cart list
             List<CartVM> cart = Session["cart"] as List<CartVM>;
 
             using (Db db = new Db())
@@ -145,7 +145,7 @@ namespace PubProject.Controllers
                 // Get cartVM from list
                 CartVM model = cart.FirstOrDefault(x => x.ProductId == productId);
 
-                // Increment qty
+                // Increase quantity 
                 model.Quantity++;
 
                 // Store needed data
@@ -160,7 +160,7 @@ namespace PubProject.Controllers
         // GET: /Cart/DecrementProduct
         public ActionResult DecrementProduct(int productId)
         {
-            // Init cart
+            // define cart
             List<CartVM> cart = Session["cart"] as List<CartVM>;
 
             using (Db db = new Db())
@@ -168,7 +168,7 @@ namespace PubProject.Controllers
                 // Get model from list
                 CartVM model = cart.FirstOrDefault(x => x.ProductId == productId);
 
-                // Decrement qty
+                // Decrease quantity 
                 if (model.Quantity > 1)
                 {
                     model.Quantity--;
@@ -191,7 +191,7 @@ namespace PubProject.Controllers
         // GET: /Cart/RemoveProduct
         public void RemoveProduct(int productId)
         {
-            // Init cart list
+            // define cart list
             List<CartVM> cart = Session["cart"] as List<CartVM>;
 
             using (Db db = new Db())
@@ -205,12 +205,8 @@ namespace PubProject.Controllers
 
         }
 
-       // public ActionResult PaypalPartial()
-    //    {
-       //     List<CartVM> cart = Session["cart"] as List<CartVM>;
 
-       //     return PartialView(cart);
-   //     }
+
 
         // POST: /Cart/PlaceOrder
         [HttpPost]
@@ -226,7 +222,7 @@ namespace PubProject.Controllers
 
             using (Db db = new Db())
             {
-                // Init OrderDTO
+                // define OrderDTO
                 OrderDTO orderDTO = new OrderDTO();
 
                 // Get user id
@@ -244,7 +240,7 @@ namespace PubProject.Controllers
                 // Get inserted id
                 orderId = orderDTO.OrderId;
 
-                // Init OrderDetailsDTO
+                // define OrderDetailsDTO
                 OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
 
                 // Add to OrderDetailsDTO
@@ -261,16 +257,22 @@ namespace PubProject.Controllers
                 }
             }
 
-            // Email admin
-            var client = new SmtpClient("mailtrap.io", 2525)
-            {
-                Credentials = new NetworkCredential("21f57cbb94cf88", "e9d7055c69f02d"),
-                EnableSsl = true
-            };
-           // client.Send("admin@example.com", "admin@example.com", "New Order", "You have a new order. Order number " + orderId);
 
             // Reset session
             Session["cart"] = null;
+        }
+        public ActionResult CancelOrder(int Id)
+        {
+            using (Db db = new Db())
+            {
+                OrderDTO order = db.Orders.Find(Id);
+                db.Orders.Remove(order);
+
+                db.SaveChanges();
+            }
+
+            // Redirect
+            return RedirectToAction("Orders");
         }
 
     }

@@ -12,7 +12,7 @@
 }
 else
 {
-    <table class="table" style="color:darkgoldenrod;text-shadow: 1px 1px 1px black">
+    <table class="table" style="color:moccasin;text-shadow: 1px 1px 1px black;font-style:italic;font-size:15px ">
         <tr>
             <th>
                 Order Number
@@ -43,6 +43,9 @@ else
             </td>
             <td>
                 $@Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+               @Html.ActionLink("Cancel", "CancelOrder", new { id = item.OrderNumber }, new { @class = "delete" })
             </td>
         </tr>
     }

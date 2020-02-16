@@ -11,34 +11,34 @@ namespace PubProject.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class PagesController : Controller
     {
-        // GET: Admin/Pages
+        // Get Admin - Pages
         public ActionResult Index()
         {
-            // Declare list of PageVM
+            // Declaring list of PageVM
             List<PageVM> pagesList;
 
             using (Db db = new Db())
             {
-                // Init the list
+                // define the list
                 pagesList = db.Pages.ToArray().OrderBy(x => x.Sorting).Select(x => new PageVM(x)).ToList();
             }
 
-            // Return view with list
+            // Return Pages Listview
             return View(pagesList);
         }
 
-        // GET: Admin/Pages/AddPage
+        // GET Admin - AddPage
         [HttpGet]
         public ActionResult AddPage()
         {
             return View();
         }
 
-        // POST: Admin/Pages/AddPage
+        // POST: Admin - Addpage
         [HttpPost]
         public ActionResult AddPage(PageVM model)
         {
-            // Check model state
+            // Check model status
             if (! ModelState.IsValid)
             {
                 return View(model);
@@ -46,16 +46,16 @@ namespace PubProject.Areas.Admin.Controllers
 
             using (Db db = new Db())
             {
-                // Declare slug
+                // Declaring slug
                 string slug;
 
-                // Init pageDTO
+                // define pageDTO
                 PageDTO dto = new PageDTO();
 
                 // DTO title
                 dto.Title = model.Title;
 
-                // Check for and set slug if need be
+                // Check if the slug is null
                 if (string.IsNullOrWhiteSpace(model.Slug))
                 {
                     slug = model.Title.Replace(" ", "-").ToLower();
@@ -72,7 +72,7 @@ namespace PubProject.Areas.Admin.Controllers
                     return View(model);
                 }
 
-                // DTO the rest
+                // define DTO attribues 
                 dto.Slug = slug;
                 dto.Body = model.Body;
                 dto.HasSidebar = model.HasSidebar;
@@ -84,39 +84,39 @@ namespace PubProject.Areas.Admin.Controllers
             }
 
             // Set TempData message
-            TempData["SM"] = "You have added a new page!";
+            TempData["SM"] = "You've added a new page!";
 
-            // Redirect
+            // Redirect to AddPage
             return RedirectToAction("AddPage");
         }
 
-        // GET: Admin/Pages/EditPage/id
+        // GET: Admin - Edit Page
         [HttpGet]
         public ActionResult EditPage(int id)
         {
-            // Declare pageVM
+            // Declaring pageVM
             PageVM model;
 
             using (Db db = new Db())
             {
-                // Get the page
+                // Get the page Id
                 PageDTO dto = db.Pages.Find(id);
 
-                // Confirm page exists
+                // Confirm if the page exists
                 if (dto == null)
                 {
                     return Content("The page does not exist.");
                 }
 
-                // Init pageVM
+                // define pageVM
                 model = new PageVM(dto);
             }
 
-            // Return view with model
+            // Return modleview list
             return View(model);
         }
 
-        // POST: Admin/Pages/EditPage/id
+        // POST: Admin - EditPage
         [HttpPost]
         public ActionResult EditPage(PageVM model)
         {
@@ -131,16 +131,16 @@ namespace PubProject.Areas.Admin.Controllers
                 // Get page id
                 int id = model.Id;
 
-                // Init slug
+                // define slug
                 string slug = "home";
 
-                // Get the page
+                // get page by its id
                 PageDTO dto = db.Pages.Find(id);
 
-                // DTO the title
+                
                 dto.Title = model.Title;
 
-                // Check for slug and set it if need be
+                // Check the slug is not equal to home
                 if (model.Slug != "home")
                 {
                     if (string.IsNullOrWhiteSpace(model.Slug))
@@ -161,7 +161,7 @@ namespace PubProject.Areas.Admin.Controllers
                     return View(model);
                 }
 
-                // DTO the rest
+                // define the dto attributes
                 dto.Slug = slug;
                 dto.Body = model.Body;
                 dto.HasSidebar = model.HasSidebar;
@@ -171,30 +171,30 @@ namespace PubProject.Areas.Admin.Controllers
             }
 
             // Set TempData message
-            TempData["SM"] = "You have edited the page!";
+            TempData["SM"] = "You've edited the page!";
 
             // Redirect
             return RedirectToAction("EditPage");
         }
 
-        // GET: Admin/Pages/PageDetails/id
+        // GET: Admin Page Detials
         public ActionResult PageDetails(int id)
         {
-            // Declare PageVM
+            // Declaring PageVM
             PageVM model;
 
             using (Db db = new Db())
             {
-                // Get the page
+                // Get the page by id 
                 PageDTO dto = db.Pages.Find(id);
 
-                // Confirm page exists
+                // Confirm if the page exists
                 if (dto == null)
                 {
                     return Content("The page does not exist.");
                 }
 
-                // Init PageVM
+                // define PageVM
                 model = new PageVM(dto);
             }
 
@@ -202,15 +202,15 @@ namespace PubProject.Areas.Admin.Controllers
             return View(model);
         }
 
-        // GET: Admin/Pages/DeletePage/id
+        // GET: Admin - Delte Page
         public ActionResult DeletePage(int id)
         {
             using (Db db = new Db())
             {
-                // Get the page
+                // Get the page by id 
                 PageDTO dto = db.Pages.Find(id);
 
-                // Remove the page
+                // Remove the page from DTO
                 db.Pages.Remove(dto);
 
                 // Save
@@ -221,7 +221,7 @@ namespace PubProject.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        // POST: Admin/Pages/ReorderPages
+        // POST: Admin - Page Record
         [HttpPost]
         public void ReorderPages(int[] id)
         {
@@ -230,7 +230,7 @@ namespace PubProject.Areas.Admin.Controllers
                 // Set initial count
                 int count = 1;
 
-                // Declare PageDTO
+                // Declaring PageDTO
                 PageDTO dto;
 
                 // Set sorting for each page
@@ -247,19 +247,19 @@ namespace PubProject.Areas.Admin.Controllers
 
         }
 
-        // GET: Admin/Pages/EditSidebar
+        // GET: Admin - edit side bar
         [HttpGet]
         public ActionResult EditSidebar()
         {
-            // Declare model
+            // Declaring model
             SidebarVM model;
 
             using (Db db = new Db())
             {
-                // Get the DTO
+                // Get the sidebar status
                 SidebarDTO dto = db.Sidebar.Find(1);
 
-                // Init model
+                // define model
                 model = new SidebarVM(dto);
             }
 
@@ -267,7 +267,7 @@ namespace PubProject.Areas.Admin.Controllers
             return View(model);
         }
 
-        // POST: Admin/Pages/EditSidebar
+        // POST: Admin - edit sidebar
         [HttpPost]
         public ActionResult EditSidebar(SidebarVM model)
         {
@@ -276,7 +276,7 @@ namespace PubProject.Areas.Admin.Controllers
                 // Get the DTO
                 SidebarDTO dto = db.Sidebar.Find(1);
 
-                // DTO the body
+                // dto body equal to model body
                 dto.Body = model.Body;
 
                 // Save
@@ -284,7 +284,7 @@ namespace PubProject.Areas.Admin.Controllers
             }
 
             // Set TempData message
-            TempData["SM"] = "You have edited the sidebar!";
+            TempData["SM"] = "You've edited the sidebar!";
 
             // Redirect
             return RedirectToAction("EditSidebar");

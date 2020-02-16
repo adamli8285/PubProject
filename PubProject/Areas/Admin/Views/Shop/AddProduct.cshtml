@@ -4,7 +4,7 @@
     ViewBag.Title = "Add Product";
 }
 
-<h2>Add Product</h2>
+<h2 style="color:darkgoldenrod;text-shadow:1px 1px 1px black">Adding Product</h2>
 
 @if (TempData["SM"] != null)
 {
@@ -18,7 +18,7 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
+    <div class="form-horizontal" style="color:darkgoldenrod;text-shadow:1px 1px 1px black">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

@@ -15,15 +15,15 @@ namespace PubProject.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class ShopController : Controller
     {
-        // GET: Admin/Shop/Categories
+        // GET: Admin - categories 
         public ActionResult Categories()
         {
-            // Declare a list of models
+            // Declaring a list of category 
             List<CategoryVM> categoryVMList;
 
             using (Db db = new Db())
             {
-                // Init the list
+                // define the category list
                 categoryVMList = db.Categories
                                 .ToArray()
                                 .OrderBy(x => x.Sorting)
@@ -35,11 +35,11 @@ namespace PubProject.Areas.Admin.Controllers
             return View(categoryVMList);
         }
 
-        // POST: Admin/Shop/AddNewCategory
+        // POST: Admin - add new category 
         [HttpPost]
         public string AddNewCategory(string catName)
         {
-            // Declare id
+            // Declaring id
             string id;
 
             using (Db db = new Db())
@@ -48,10 +48,10 @@ namespace PubProject.Areas.Admin.Controllers
                 if (db.Categories.Any(x => x.Name == catName))
                     return "titletaken";
 
-                // Init DTO
+                // define DTO
                 CategoryDTO dto = new CategoryDTO();
 
-                // Add to DTO
+                // Add category to DTO
                 dto.Name = catName;
                 dto.Slug = catName.Replace(" ", "-").ToLower();
                 dto.Sorting = 100;
@@ -77,7 +77,7 @@ namespace PubProject.Areas.Admin.Controllers
                 // Set initial count
                 int count = 1;
 
-                // Declare CategoryDTO
+                // Declaring CategoryDTO
                 CategoryDTO dto;
 
                 // Set sorting for each category
@@ -99,10 +99,10 @@ namespace PubProject.Areas.Admin.Controllers
         {
             using (Db db = new Db())
             {
-                // Get the category
+                // get category by id
                 CategoryDTO dto = db.Categories.Find(id);
 
-                // Remove the category
+                // Remove the category from dto
                 db.Categories.Remove(dto);
 
                 // Save
@@ -142,10 +142,10 @@ namespace PubProject.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult AddProduct()
         {
-            // Init model
+            // define model
             ProductVM model = new ProductVM();
 
-            // Add select list of categories to model
+            // Add selected list of categories to model
             using (Db db = new Db())
             {
                 model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
@@ -180,10 +180,10 @@ namespace PubProject.Areas.Admin.Controllers
                 }
             }
 
-            // Declare product id
+            // Declaring product id
             int id;
 
-            // Init and save productDTO
+            // define and save productDTO
             using (Db db = new Db())
             {
                 ProductDTO product = new ProductDTO();
@@ -255,10 +255,10 @@ namespace PubProject.Areas.Admin.Controllers
                     }
                 }
 
-                // Init image name
+                // define image name
                 string imageName = file.FileName;
 
-                // Save image name to DTO
+                // put image name to DTO
                 using (Db db = new Db())
                 {
                     ProductDTO dto = db.Products.Find(id);
@@ -267,7 +267,7 @@ namespace PubProject.Areas.Admin.Controllers
                     db.SaveChanges();
                 }
 
-                // Set original and thumb image paths
+                // Set original and thumb images path
                 var path = string.Format("{0}\\{1}", pathString2, imageName);
                 var path2 = string.Format("{0}\\{1}", pathString3, imageName);
 
@@ -289,7 +289,7 @@ namespace PubProject.Areas.Admin.Controllers
         // GET: Admin/Shop/Products
         public ActionResult Products(int? page, int? catId)
         {
-            // Declare a list of ProductVM
+            // Declaring a list of ProductVM
             List<ProductVM> listOfProductVM;
 
             // Set page number
@@ -297,13 +297,13 @@ namespace PubProject.Areas.Admin.Controllers
 
             using (Db db = new Db())
             {
-                // Init the list
+                // define the list
                 listOfProductVM = db.Products.ToArray()
                                   .Where(x => catId == null || catId == 0 || x.CategoryId == catId)
                                   .Select(x => new ProductVM(x))
                                   .ToList();
 
-                // Populate categories select list
+                // Populate selected categories lists
                 ViewBag.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
 
                 // Set selected category
@@ -322,24 +322,24 @@ namespace PubProject.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult EditProduct(int id)
         {
-            // Declare productVM
+            // Declaring productVM
             ProductVM model;
 
             using (Db db = new Db())
             {
-                // Get the product
+                // Get the product by id
                 ProductDTO dto = db.Products.Find(id);
 
-                // Make sure product exists
+                // Make sure the product exists
                 if (dto == null)
                 {
                     return Content("That product does not exist.");
                 }
 
-                // init model
+                // define model
                 model = new ProductVM(dto);
 
-                // Make a select list
+                // Make a selected list
                 model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
 
                 // Get all gallery images
@@ -503,10 +503,10 @@ namespace PubProject.Areas.Admin.Controllers
             // Loop through files
             foreach (string fileName in Request.Files)
             {
-                // Init the file
+                // define the file
                 HttpPostedFileBase file = Request.Files[fileName];
 
-                // Check it's not null
+                // Check file is not null
                 if ( file != null && file.ContentLength > 0)
                 {
                     // Set directory paths
@@ -548,24 +548,24 @@ namespace PubProject.Areas.Admin.Controllers
         // GET: Admin/Shop/Orders
         public ActionResult Orders()
         {
-            // Init list of OrdersForAdminVM
+            // define list of OrdersForAdminVM
             List<OrdersForAdminVM> ordersForAdmin = new List<OrdersForAdminVM>();
 
             using (Db db = new Db())
             {
-                // Init list of OrderVM
+                // define list of OrderVM
                 List<OrderVM> orders = db.Orders.ToArray().Select(x => new OrderVM(x)).ToList();
 
                 // Loop through list of OrderVM
                 foreach (var order in orders)
                 {
-                    // Init product dict
+                    // define product dict
                     Dictionary<string, int> productsAndQty = new Dictionary<string, int>();
 
-                    // Declare total
+                    // Declaring total
                     decimal total = 0m;
 
-                    // Init list of OrderDetailsDTO
+                    // define list of OrderDetailsDTO
                     List<OrderDetailsDTO> orderDetailsList = db.OrderDetails.Where(X => X.OrderId == order.OrderId).ToList();
 
                     // Get username

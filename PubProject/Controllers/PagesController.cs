@@ -17,7 +17,7 @@ namespace PubProject.Controllers
             if (page == "")
                 page = "home";
 
-            // Declare model and DTO
+            // Declaring model and DTO
             PageVM model;
             PageDTO dto;
 
@@ -39,7 +39,7 @@ namespace PubProject.Controllers
             // Set page title
             ViewBag.PageTitle = dto.Title;
 
-            // Check for sidebar
+            // Check for sidebar status
             if (dto.HasSidebar == true)
             {
                 ViewBag.Sidebar = "Yes";
@@ -49,7 +49,7 @@ namespace PubProject.Controllers
                 ViewBag.Sidebar = "No";
             }
 
-            // Init model
+            // define model
             model = new PageVM(dto);
 
             // Return view with model
@@ -58,7 +58,7 @@ namespace PubProject.Controllers
         
         public ActionResult PagesMenuPartial()
         {
-            // Declare a list of PageVM
+            // Declaring a list of PageVM
             List<PageVM> pageVMList;
 
             // Get all pages except home
@@ -72,10 +72,10 @@ namespace PubProject.Controllers
 
         public ActionResult SidebarPartial()
         {
-            // Declare model
+            // Declaring model
             SidebarVM model;
 
-            // Init model
+            // define model
             using (Db db = new Db())
             {
                 SidebarDTO dto = db.Sidebar.Find(1);

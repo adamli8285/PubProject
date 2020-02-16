@@ -22,7 +22,7 @@ namespace PubProject.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            // Confirm user is not logged in
+            // Confirm user is not logged in yet
 
             string username = User.Identity.Name;
 
@@ -86,7 +86,7 @@ namespace PubProject.Controllers
                 return View("CreateAccount", model);
             }
 
-            // Check if passwords match
+            // Check if password matches
             if (!model.Password.Equals(model.ConfirmPassword))
             {
                 ModelState.AddModelError("", "Passwords do not match.");
@@ -133,7 +133,7 @@ namespace PubProject.Controllers
             }
 
             // Create a TempData message
-            TempData["SM"] = "You are now registered and can login.";
+            TempData["SM"] = "Your account has been created. Please Login.";
 
             // Redirect
             return Redirect("~/account/login");
@@ -261,28 +261,28 @@ namespace PubProject.Controllers
         [Authorize(Roles="User")]
         public ActionResult Orders()
         {
-            // Init list of OrdersForUserVM
+            // define list of OrdersForUserVM
             List<OrdersForUserVM> ordersForUser = new List<OrdersForUserVM>();
 
             using (Db db = new Db())
             {
-                // Get user id
+                // Get user id from db
                 UserDTO user = db.Users.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
                 int userId = user.Id;
 
-                // Init list of OrderVM
+                // define list of OrderVM
                 List<OrderVM> orders = db.Orders.Where(x => x.UserId == userId).ToArray().Select(x => new OrderVM(x)).ToList();
 
                 // Loop through list of OrderVM
                 foreach (var order in orders)
                 {
-                    // Init products dict
+                    // define products dict
                     Dictionary<string, int> productsAndQty = new Dictionary<string, int>();
 
-                    // Declare total
+                    // Declaring total
                     decimal total = 0m;
 
-                    // Init list of OrderDetailsDTO
+                    // define list of OrderDetailsDTO
                     List<OrderDetailsDTO> orderDetailsDTO = db.OrderDetails.Where(x => x.OrderId == order.OrderId).ToList();
 
                     // Loop though list of OrderDetailsDTO
@@ -318,6 +318,19 @@ namespace PubProject.Controllers
 
             // Return view with list of OrdersForUserVM
             return View(ordersForUser);
+        }
+        public ActionResult CancelOrder(int Id)
+        {
+            using (Db db = new Db())
+            {
+                OrderDTO order = db.Orders.Find(Id);
+                db.Orders.Remove(order);
+
+                db.SaveChanges();
+            }
+
+            // Redirect
+            return RedirectToAction("Orders");
         }
     }
 }

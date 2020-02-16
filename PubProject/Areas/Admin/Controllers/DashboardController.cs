@@ -9,7 +9,7 @@ namespace PubProject.Areas.Admin.Controllers
     [Authorize(Roles ="Admin")]
     public class DashboardController : Controller
     {
-        // GET: Admin/Dashboard
+        // GET Admin Dashboard Page
         public ActionResult Index()
         {
             return View();

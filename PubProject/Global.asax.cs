@@ -29,7 +29,7 @@ namespace PubProject
             string username = Context.User.Identity.Name;
 
             // Declare array of roles
-            string[] roles = null;
+            string[] roles;
 
             using (Db db = new Db())
             {
